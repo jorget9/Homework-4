@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+    <style>
+      body{
+        background-color: #e0dbdb;
+      }
+      p{
+        display: inline-block;
+      }
+     </style> 
+  </head>
+  <body>
+    <div>
+        <h1>SpaceX Latest Launch</h1>
+        <h3 id= missionName></h3>
+        <h4 id=flightNumber>Flight Number: </h4> 
+        <h4 id=launchDate></h4>
+        <h4 id=rocketName></h4>
+
+
+    </div>
+
+
+
+    <script>
+        //fetch from api
+        fetch('https://api.spacexdata.com/v2/launches/latest')
+        //turn fetch response into json
+            .then(response => response.json())
+            .then(data => { 
+                //grab the info from json and turn into consts
+                const missionName = data.mission_name;
+                const launchDate = data.launch_date_local;
+                const rocketName=`${data.rocket.rocket_name}` ;
+
+
+                //edit html to show api info 
+                document.getElementById("missionName").innerHTML= missionName;
+                document.getElementById("launchDate").innerHTML= launchDate;
+                document.getElementById("rocketName").innerHTML= rocketName;
+
+
+
+
+              //using dom nodes to add to html
+                var para = document.createElement("p");
+                var node = document.createTextNode(data.flight_number); 
+                para.appendChild(node);
+                var element = document.getElementById("flightNumber");
+                element.appendChild(para);
+
+             
+
+            })
+            //catch any errors
+            .catch(error => console.log(error));
+
+          
+
+
+    </script>
+  </body>
+</html>
